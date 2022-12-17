@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="cook" type="com.example.shoppingcart.entity.Cook" />
+
+        <variable
+            name="cookInterface"
+            type="com.example.shoppingcart.adapters.CookAdapter.CookInterface" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5sp">
+
+        <TextView
+            android:id="@+id/txtCookId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:text="@{String.valueOf(cook.cook_id)}"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txtCookName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:text="@{cook.cook_name}"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txtCookFavorite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:text=""
+            android:textSize="20sp" />
+
+           ItemAdapterクラス内にコード記述する方法に変更   android:onClick="@{() -> playerInterface.onItemClick(playerAndTeam)}"
+    </LinearLayout>
+
+</layout>

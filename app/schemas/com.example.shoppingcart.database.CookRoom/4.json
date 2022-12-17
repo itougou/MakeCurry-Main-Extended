@@ -1,0 +1,179 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "52def941416c11f4fb9daae90b07a165",
+    "entities": [
+      {
+        "tableName": "cook",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cook_id` INTEGER NOT NULL, `cook_name` TEXT, `favorite` INTEGER NOT NULL, `img_url` TEXT, `recipe_url` TEXT, `cook_time` INTEGER NOT NULL, PRIMARY KEY(`cook_id`))",
+        "fields": [
+          {
+            "fieldPath": "cook_id",
+            "columnName": "cook_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cook_name",
+            "columnName": "cook_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "favorite",
+            "columnName": "favorite",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "img_url",
+            "columnName": "img_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "recipe_url",
+            "columnName": "recipe_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cook_time",
+            "columnName": "cook_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "cook_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ingredient",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ingredient_id` INTEGER NOT NULL, `category_id` INTEGER NOT NULL, `unit_id` INTEGER NOT NULL, `ing_name` TEXT, `expiration_date` INTEGER NOT NULL, `img_url` TEXT, PRIMARY KEY(`ingredient_id`))",
+        "fields": [
+          {
+            "fieldPath": "ingredient_id",
+            "columnName": "ingredient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category_id",
+            "columnName": "category_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_id",
+            "columnName": "unit_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ing_name",
+            "columnName": "ing_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "expiration_date",
+            "columnName": "expiration_date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "img_url",
+            "columnName": "img_url",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "ingredient_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "cook_ingredient_xref",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cook_id` INTEGER NOT NULL, `ingredient_id` INTEGER NOT NULL, `quantity` INTEGER NOT NULL, PRIMARY KEY(`cook_id`, `ingredient_id`))",
+        "fields": [
+          {
+            "fieldPath": "cook_id",
+            "columnName": "cook_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ingredient_id",
+            "columnName": "ingredient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantity",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "cook_id",
+            "ingredient_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "stock",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`stock_id` INTEGER NOT NULL, `quantity` INTEGER NOT NULL, `add_date` TEXT, PRIMARY KEY(`stock_id`))",
+        "fields": [
+          {
+            "fieldPath": "stock_id",
+            "columnName": "stock_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantity",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "add_date",
+            "columnName": "add_date",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "stock_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '52def941416c11f4fb9daae90b07a165')"
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+<!--        <variable-->
+<!--            name="stock"-->
+<!--            type="com.example.shoppingcart.entity.relation.IngredientAndStockAndUnit" />-->
+        <variable
+            name="stock"
+            type="com.example.shoppingcart.entity.StockWithIngredientsAndUnit" />
+        <variable
+            name="stockInterface"
+            type="com.example.shoppingcart.adapters.StockListAdapter.StockInterface" />
+    </data>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/ingNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="0.3"
+            android:text="@{stock.ing_name}"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/quantityTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_weight="0.1"
+            android:text="@{String.valueOf(stock.quantity)}" />
+
+        <TextView
+            android:id="@+id/unitNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="0.2"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{stock.unit_name}" />
+
+        <TextView
+            android:id="@+id/addDateTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="0.41"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{stock.add_date}" />
+
+        <ImageButton
+            android:id="@+id/deleteStockButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_weight="0.1"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_baseline_delete_24" />
+
+    </LinearLayout>
+
+</layout>
+
