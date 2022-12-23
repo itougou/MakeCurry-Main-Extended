@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="cookViewModel"
+            type="com.example.shoppingcart.viewmodels.CookViewModel" />
+    </data>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txtCookName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@{cookViewModel.cook.cook_name + ` の料理詳細画面`}"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:cookImage="@{cookViewModel.cook.img_url}" />
+
+            <LinearLayout
+                android:layout_width="352dp"
+                android:layout_height="59dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:text="材料"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/textSecondary" />
+
+
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/spinner_items"
+                    android:minHeight="48dp" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="202dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="人前" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="    食材"
+                    android:textSize="17sp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/textSecondary" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.35"
+                    android:text="必要数量/在庫数量"
+                    android:textSize="17sp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/textSecondary" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.15"
+                    android:text="単位"
+                    android:textSize="17sp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/textSecondary" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/CookIngList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="8sp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@layout/cookdetail_row" />
+
+        </LinearLayout>
+
+<!--                        <Button-->
+<!--                            android:id="@+id/addToCartButton"-->
+<!--                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:backgroundTint="#1e90ff"-->
+<!--                            android:enabled="@{shopViewModel.product.available}"-->
+<!--                            android:onClick="@{() -> shopViewModel.addItemToCart(shopViewModel.product)}"-->
+<!--                            android:text="この料理を作った！！"-->
+<!--                            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"-->
+<!--                            android:textColor="#FFFFFF" />-->
+
+
+</layout>
+

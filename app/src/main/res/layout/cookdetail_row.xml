@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="cookInglist"
+            type="com.example.shoppingcart.entity.IngWithXRefAndUnitAndStock" />
+        <variable
+            name="cookDetailInterface"
+            type="com.example.shoppingcart.adapters.CookDetailAdapter.CookDetailInterface" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5sp">
+
+        <TextView
+            android:id="@+id/txtIngredientName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="0.5"
+            android:text="@{cookInglist.ing_name}"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/txtIngredientQuantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="0.15"
+            android:text="@{String.valueOf(cookInglist.xref_quantity)}"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/txtSlash"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="0.05"
+            android:text="/"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/txtStockQuantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="0.15"
+            android:text="@{String.valueOf(cookInglist.st_quantity)}"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/txtUnit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="0.15"
+            android:text="@{cookInglist.unit_name}"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+</layout>
