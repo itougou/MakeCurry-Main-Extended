@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="ingredient"
-            type="com.example.shoppingcart.entity.Ingredient" />
+            name="ingredientAndUnit"
+            type="com.example.shoppingcart.entity.relation.IngredientAndUnit" />
 
         <variable
             name="ingredientInterface"
@@ -27,14 +27,14 @@
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/iphone11"
-            android:cookImage="@{ingredient.img_url}"
+            android:cookImage="@{ingredientAndUnit.ingredient.img_url}"
             />
 
         <TextView
             android:id="@+id/productNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ingredient.ing_name}"
+            android:text="@{ingredientAndUnit.ingredient.ing_name}"
             android:layout_gravity="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
@@ -64,6 +64,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="0"/>
+
+            <TextView
+                android:id="@+id/UnitTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="@{ingredientAndUnit.unit.unit_name}" />
 
             <Button
                 android:id="@+id/addToCartButton"

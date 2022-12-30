@@ -23,6 +23,7 @@ import com.example.shoppingcart.adapters.IngredientAdapter;
 import com.example.shoppingcart.databinding.FragmentShopBinding;
 import com.example.shoppingcart.entity.Stock;
 import com.example.shoppingcart.entity.Ingredient;
+import com.example.shoppingcart.entity.relation.IngredientAndUnit;
 import com.example.shoppingcart.viewmodels.IngredientViewModel;
 //import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.example.shoppingcart.viewmodels.StockViewModel;
@@ -67,19 +68,19 @@ public class ShopFragment extends Fragment implements IngredientAdapter.Ingredie
 
         ingredientViewModel = new ViewModelProvider(requireActivity()).get(IngredientViewModel.class);
 
-        ingredientViewModel.getAllIngredient().observe(getViewLifecycleOwner(), new Observer<List<Ingredient>>() {
+        ingredientViewModel.getAllIngredientAndUnit().observe(getViewLifecycleOwner(), new Observer<List<IngredientAndUnit>>() {
             @Override
-            public void onChanged(List<Ingredient> ingredients) {
-                ingredientAdapter.submitList(ingredients);
+            public void onChanged(List<IngredientAndUnit> ingredientAndUnit) {
+                ingredientAdapter.submitList(ingredientAndUnit);
             }
         });
 
-        ingredientViewModel.getIngredients().observe(getViewLifecycleOwner(), new Observer<List<Ingredient>>() {
-            @Override
-            public void onChanged(List<Ingredient> ingredients) {
-                ingredientAdapter.submitList(ingredients);
-            }
-        });
+//        ingredientViewModel.getIngredients().observe(getViewLifecycleOwner(), new Observer<List<Ingredient>>() {
+//            @Override
+//            public void onChanged(List<Ingredient> ingredients) {
+//                ingredientAdapter.submitList(ingredients);
+//            }
+//        });
 
         navController = Navigation.findNavController(view);
 
@@ -105,7 +106,7 @@ public class ShopFragment extends Fragment implements IngredientAdapter.Ingredie
 //            Snackbar.make(requireView(), "Already have the max quantity in cart.", Snackbar.LENGTH_LONG)
 //                    .show();
 //        }
-    public long addItem(Ingredient ingredient, int suu) {
+    public long addItem(IngredientAndUnit ingredient, int suu) {
         //前回クリックから一定時間経過していなければクリックイベントを実行しない
         if (!ShopFragment.isClickEvent()) return -1 ;
 //        Log.d("★ShopFragment","addItem quantity:"+ingredient.getQuantity());
@@ -130,6 +131,7 @@ public class ShopFragment extends Fragment implements IngredientAdapter.Ingredie
             lngRet = ingredientViewModel.insertStock(new Stock(ingredient.getIngredient_id(), suu, addDate));
             Log.d("★ShopFragment","addItem stock追加行数："+lngRet);
         }
+
         return lngRet;  //行数または行番号を返す
         //ingredientViewModel.notifyDataSetChanged();
 
@@ -173,7 +175,7 @@ public class ShopFragment extends Fragment implements IngredientAdapter.Ingredie
 //        }
     //↓田中変更文？
     @Override
-    public long minusItem(Ingredient ingredient, int suu) {
+    public long minusItem(IngredientAndUnit ingredient, int suu) {
         // 前回クリックから一定時間経過していなければクリックイベントを実行しない
         if (!ShopFragment.isClickEvent()) return -1;
 
@@ -213,7 +215,7 @@ public class ShopFragment extends Fragment implements IngredientAdapter.Ingredie
     }
 
     @Override
-    public void onItemClick(Ingredient ingredient) {
+    public void onItemClick(IngredientAndUnit ingredient) {
         ingredientViewModel.setIngredient(ingredient);
         navController.navigate(R.id.action_shopFragment_to_productDetailFragment);
 

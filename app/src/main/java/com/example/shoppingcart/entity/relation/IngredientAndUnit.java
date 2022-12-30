@@ -13,7 +13,8 @@ import com.example.shoppingcart.entity.Unit;
     ingredientテーブルとunitテーブルの1:1リレーションクラス
  */
 public class IngredientAndUnit {
-    @Embedded(prefix = "ingredient_unit")
+    //@Embedded(prefix = "ingredient_unit")
+    @Embedded
     public Ingredient ingredient;
     @Relation(
             parentColumn = "unit_id",

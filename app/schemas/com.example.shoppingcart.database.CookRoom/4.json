@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "1d85bf948c68d73d3f67e9d4aed56af9",
+    "identityHash": "aad1e72dce077100bf4c4f180b3e3af4",
     "entities": [
       {
         "tableName": "cook",
@@ -211,12 +211,55 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "ing_category",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` INTEGER NOT NULL, `category_name` TEXT, PRIMARY KEY(`category_id`))",
+        "fields": [
+          {
+            "fieldPath": "category_id",
+            "columnName": "category_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category_name",
+            "columnName": "category_name",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "category_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
-    "views": [],
+    "views": [
+      {
+        "viewName": "StockWithIngredientsAndUnit",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT ingredient.ingredient_id,ingredient.ing_name,stock.quantity,unit.unit_name,stock.add_date FROM stock INNER JOIN ingredient ON stock.ingredient_id = ingredient.ingredient_id INNER JOIN unit ON ingredient.unit_id = unit.unit_id ORDER BY ing_name,add_date"
+      },
+      {
+        "viewName": "IngWithXRefAndUnitAndStock",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT ing.ingredient_id AS ingredient_id, ing.ing_name AS ing_name, xref.quantity AS xref_quantity, xref.cook_id AS xref_cook_id, st.quantity AS st_quantity, u.unit_name AS unit_name FROM  ingredient AS ing  INNER JOIN cook_ingredient_xref AS xref ON ing.ingredient_id = xref.ingredient_id INNER JOIN  unit AS u ON ing.unit_id = u.unit_id INNER JOIN stock AS st ON ing.ingredient_id = st.ingredient_id"
+      },
+      {
+        "viewName": "categoryWithIngredient",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT  cat.category_id AS category_id,  cat.category_name AS category_name,  ing.ingredient_id AS ingredient_id,  ing.ing_name AS ing_name,  ing.unit_id AS unit_id ,  ing.expiration_date AS expiration_date,  ing.img_url AS img_url FROM ing_category AS cat INNER JOIN ingredient AS ing  ON cat.category_id = ing.category_id ORDER BY cat.category_id,ing.ingredient_id"
+      },
+      {
+        "viewName": "categoryWithIngredientAndUnit",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT  cat.category_id AS category_id,  cat.category_name AS category_name,  ing.ingredient_id AS ingredient_id,  ing.ing_name AS ing_name,  ing.unit_id AS unit_id ,  ing.expiration_date AS expiration_date,  ing.img_url AS img_url,  u.unit_name AS unit_name,  SUM(st.quantity) AS quantity_sum FROM ing_category AS cat INNER JOIN ingredient AS ing  ON cat.category_id = ing.category_id INNER JOIN unit AS u  ON ing.unit_id = u.unit_id INNER JOIN stock as st  ON st.ingredient_id = ing.ingredient_id GROUP BY ing.ingredient_id ORDER BY cat.category_id,ing.ingredient_id"
+      }
+    ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1d85bf948c68d73d3f67e9d4aed56af9')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'aad1e72dce077100bf4c4f180b3e3af4')"
     ]
   }
 }

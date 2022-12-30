@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shoppingcart.R;
 import com.example.shoppingcart.databinding.IngredientRowBinding;
 import com.example.shoppingcart.entity.Ingredient;
+import com.example.shoppingcart.entity.relation.IngredientAndUnit;
 
-public class IngredientAdapter extends ListAdapter<Ingredient, IngredientAdapter.IngredientViewHolder> {
+public class IngredientAdapter extends ListAdapter<IngredientAndUnit, IngredientAdapter.IngredientViewHolder> {
 
     IngredientInterface ingredientInterface;
     public IngredientAdapter(IngredientInterface ingredientInterface) {
-        super(Ingredient.itemCallback);
+        super(IngredientAndUnit.itemCallback);
         this.ingredientInterface = ingredientInterface;
     }
 
@@ -37,8 +38,8 @@ public class IngredientAdapter extends ListAdapter<Ingredient, IngredientAdapter
     @Override
     public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
         System.out.println("onBindViewHolder");
-        Ingredient ingredient = getItem(position);
-        holder.ingredientRowBinding.setIngredient(ingredient);
+        IngredientAndUnit ingredientAndUnit = getItem(position);
+        holder.ingredientRowBinding.setIngredientAndUnit(ingredientAndUnit);
         holder.ingredientRowBinding.executePendingBindings();
 
         //+ボタンのクリックハンドラーの登録　2022.12.13 ito
@@ -52,7 +53,7 @@ public class IngredientAdapter extends ListAdapter<Ingredient, IngredientAdapter
                 int suu = Integer.parseInt( String.valueOf( tv.getText() ) );
                 suu ++;
                 tv.setText( Integer.toString(suu) );
-                long l = ingredientInterface.addItem( ingredient, suu );
+                long l = ingredientInterface.addItem( ingredientAndUnit, suu );
 
                 Log.i("★IngredientAdapter","addToCartButton Clicked! suu:"+suu+" 更新数："+l);
             }
@@ -71,7 +72,7 @@ public class IngredientAdapter extends ListAdapter<Ingredient, IngredientAdapter
                 }
                 suu --;
                 tv.setText( Integer.toString(suu) );
-                long l = ingredientInterface.minusItem( ingredient, suu );
+                long l = ingredientInterface.minusItem( ingredientAndUnit, suu );
 
                 Log.i("★IngredientAdapter","minusToCartButton Clicked! suu:"+suu+" 更新数："+l);
             }
@@ -90,9 +91,9 @@ public class IngredientAdapter extends ListAdapter<Ingredient, IngredientAdapter
     }
 
     public interface IngredientInterface {
-        long addItem(Ingredient ingredient, int suu );
-        long minusItem(Ingredient ingredient, int suu );
-        void onItemClick(Ingredient ingredient);
+        long addItem(IngredientAndUnit ingredient, int suu );
+        long minusItem(IngredientAndUnit ingredient, int suu );
+        void onItemClick(IngredientAndUnit ingredient);
     }
 
 }

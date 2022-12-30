@@ -27,6 +27,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         Log.d("★ItemsAdapter","コンストラクタ");
         this.context = context.getContext();
         this.items = items;
+
+        notifyDataSetChanged();
     }
     /* 以下３つのメソッドをオーバーライド */
     @NonNull
@@ -57,9 +59,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         }
         // TextViewにitemを設定するインスタンスメソッド
         public void bind(Item item){
+
             TextView textView = (TextView) view.findViewById(R.id.textViewContent);
             textView.setText(item.getContent());
-            Log.d("★ItemsAdapter","item.getContent()："+item.getContent());
+
+            textView = (TextView) view.findViewById(R.id.textViewContentCount);
+            textView.setText( Integer.toString( item.getSuu() ) );
+
+            textView = (TextView) view.findViewById(R.id.textViewContentUnit);
+            textView.setText(item.getUnit_name());
+
+            Log.d("★ItemsAdapter","item.getContent()："+item.getContent()+" item.suu："+item.getSuu());
         }
     }
 }

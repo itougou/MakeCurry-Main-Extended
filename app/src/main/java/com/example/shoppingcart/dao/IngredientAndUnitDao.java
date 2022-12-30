@@ -18,17 +18,17 @@ public interface IngredientAndUnitDao {
     @Query("SELECT * FROM ingredient")
     public LiveData<List<IngredientAndUnit>> getIngredientWithUnit();
 
-    /* 食材名,単位名,食材の画像カラムを表示するメソッド*/
-    // キーワード検索(前方一致) 単位付き
-    @Transaction
-    @Query( "SELECT ingredient.ing_name,unit.unit_name,ingredient.img_url " +
-            "FROM ingredient,unit " +
-            "WHERE ingredient.ing_name " + "LIKE :ing_name + '%'")
-    public LiveData<List<IngredientAndUnit>> getIngredientsByName(String ing_name);
-    // キーワード検索(完全一致) 単位付き
-    @Transaction
-    @Query( "SELECT ingredient.ing_name,unit.unit_name,ingredient.img_url " +
-            "FROM ingredient,unit " +
-            "WHERE ingredient.ing_name LIKE :ing_name")
-    public LiveData<List<IngredientAndUnit>> getIngredientsByFUllName(String ing_name);
+//    /* 食材名,単位名,食材の画像カラムを表示するメソッド*/
+//    // キーワード検索(前方一致) 単位付き
+//    @Transaction
+//    @Query( "SELECT ingredient.ing_name,unit.unit_name,ingredient.img_url " +
+//            "FROM ingredient,unit " +
+//            "WHERE ingredient.ing_name " + "LIKE :ing_name + '%'")
+//    public LiveData<List<IngredientAndUnit>> getIngredientsByName(String ing_name);
+//    // キーワード検索(完全一致) 単位付き
+//    @Transaction
+//    @Query( "SELECT ingredient.ing_name,unit.unit_name,ingredient.img_url " +
+//            "FROM ingredient,unit " +
+//            "WHERE ingredient.ing_name LIKE :ing_name")
+//    public LiveData<List<IngredientAndUnit>> getIngredientsByFUllName(String ing_name);
 }

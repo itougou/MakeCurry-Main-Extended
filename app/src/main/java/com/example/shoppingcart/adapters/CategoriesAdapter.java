@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shoppingcart.R;
 import com.example.shoppingcart.entity.Ingredient;
 import com.example.shoppingcart.models.Category;
+import com.example.shoppingcart.models.Item;
 
 import java.util.List;
 
@@ -30,7 +31,14 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
         this.context = context;
         this.listOfCategories = listOfCategories;
+        notifyDataSetChanged();
         Log.d("★CategoriesAdater","コンストラクタ");
+        for(Category c : listOfCategories){
+            Log.d("★CategoriesAdater","  "+ c.getName());
+            for( Item i : c.getListOfItems() ){
+                Log.d("★CategoriesAdater","    "+i.getContent() + " suu:"+ i.getSuu());
+            }
+        }
     }
     /* 以下３つのメソッドをオーバーライド */
     @NonNull
@@ -48,6 +56,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         Log.d("★CategoriesAdater","onBindViewHolder");
         //202.12.23
         // holder.bind(listOfCategories.get(position));
+        for(Item i :listOfCategories.get(position).getListOfItems() ){
+            Log.d("★CategoriesAdater"," pos:"+position+"  name:"+i.getContent() +" suu:"+i.getSuu());
+        }
         holder.bind(listOfCategories.get(position),parent);
     }
 

@@ -10,6 +10,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.shoppingcart.dao.CategoryWithIngredientAndUnitDao;
 import com.example.shoppingcart.dao.CategoryWithIngredientDao;
 import com.example.shoppingcart.dao.CookAndCookdetailDao;
 import com.example.shoppingcart.dao.CookDao;
@@ -17,11 +18,13 @@ import com.example.shoppingcart.dao.IngWithXRefAndUnitAndStockDao;
 import com.example.shoppingcart.dao.IngredientAndCookIngredientXRefAndUnitDao;
 import com.example.shoppingcart.dao.IngredientAndStockAndUnitDao;
 import com.example.shoppingcart.dao.CookWithIngredientAndUnitDao;
+import com.example.shoppingcart.dao.IngredientAndUnitDao;
 import com.example.shoppingcart.dao.IngredientDao;
 import com.example.shoppingcart.dao.StockAndIngredientDao;
 import com.example.shoppingcart.dao.StockDao;
 import com.example.shoppingcart.dao.StockWithIngredientsAndUnitDao;
 import com.example.shoppingcart.entity.CategoryWithIngredient;
+import com.example.shoppingcart.entity.CategoryWithIngredientAndUnit;
 import com.example.shoppingcart.entity.Cook;
 import com.example.shoppingcart.entity.CookIngredientXRef;
 import com.example.shoppingcart.entity.IngCategory;
@@ -45,17 +48,18 @@ import java.util.concurrent.Executors;
         views = {
                 StockWithIngredientsAndUnit.class,
                 IngWithXRefAndUnitAndStock.class,
-                CategoryWithIngredient.class    //2022.12.23
+                CategoryWithIngredient.class,    //2022.12.23
+                CategoryWithIngredientAndUnit.class    //2022.12.23
         },
-        version = 2,
+        version = 6,
 
 
             autoMigrations = {
-                @AutoMigration (from = 1, to = 2)
+//                @AutoMigration (from = 1, to = 2)
 //                @AutoMigration (from = 2, to = 3)
 //                @AutoMigration (from = 3, to = 4),
 //                @AutoMigration (from = 4, to = 5),
-//                @AutoMigration (from = 5, to = 6),
+                @AutoMigration (from = 5, to = 6),
 //                @AutoMigration (from = 6, to = 7)
 //                @AutoMigration (from = 7, to = 8),
 //                @AutoMigration(from = 8, to = 9)
@@ -79,6 +83,8 @@ public abstract class CookRoom extends RoomDatabase {
     public abstract StockWithIngredientsAndUnitDao StockWithIngredientsAndUnitDao();
     //2022.12.23
     public abstract CategoryWithIngredientDao CategoryWithIngredientDao();
+    public abstract CategoryWithIngredientAndUnitDao CategoryWithIngredientAndUnitDao();
+    public abstract IngredientAndUnitDao IngredientAndUnitDao();
 
     // marking the instance as volatile to ensure atomic access to the variable
     private static volatile CookRoom INSTANCE;

@@ -13,11 +13,13 @@ import androidx.lifecycle.ViewModel;
 import com.example.shoppingcart.dao.IngredientAndStockAndUnitDao;
 import com.example.shoppingcart.entity.CategoryWithIngredient;
 import com.example.shoppingcart.entity.CategoryWithIngredient2;
+import com.example.shoppingcart.entity.CategoryWithIngredientAndUnit;
 import com.example.shoppingcart.entity.Ingredient;
 import com.example.shoppingcart.entity.relation.IngredientAndCookIngredientXRefAndUnit;
 import com.example.shoppingcart.entity.relation.IngredientAndStock;
 import com.example.shoppingcart.entity.Stock;
 import com.example.shoppingcart.entity.relation.IngredientAndStockAndUnit;
+import com.example.shoppingcart.entity.relation.IngredientAndUnit;
 import com.example.shoppingcart.models.CartItem;
 
 import com.example.shoppingcart.repositories.CartRepo;
@@ -34,6 +36,8 @@ public class IngredientViewModel extends AndroidViewModel {
     //2022.12.23
     private final LiveData<List<CategoryWithIngredient>> mAllCategoryWithIngredient;    //結合表
     private final LiveData<List<CategoryWithIngredient2>> mAllCategoryWithIngredient2;  //1対多
+    //private final LiveData<List<CategoryWithIngredientAndUnit>> mAllCategoryWithIngredientAndUnit;
+    private final LiveData<List<IngredientAndUnit>> mAllIngredientAndUnit;  //1対1 List
 
     ShopRepo shopRepo;
     IngredientAndCookIngredientXRefAndUnitRepo ingredientAndCookIngredientXRefAndUnitRepo;
@@ -51,19 +55,21 @@ public class IngredientViewModel extends AndroidViewModel {
         categoryWithIngredientRepo = new CategoryWithIngredientRepo(application);
         mAllCategoryWithIngredient = categoryWithIngredientRepo.getAllCategoryWithIngredient();
         mAllCategoryWithIngredient2 = categoryWithIngredientRepo.getAllCategoryWithIngredient2();
+        //mAllCategoryWithIngredientAndUnit = categoryWithIngredientRepo.getAllCategoryWithIngredientAndUnit();
+        mAllIngredientAndUnit = shopRepo.getIngredientAntUnit();
     }
 
-    MutableLiveData<Ingredient> mutableIngredient = new MutableLiveData<>();
+    MutableLiveData<IngredientAndUnit> mutableIngredient = new MutableLiveData<>();
 
     public LiveData<List<Ingredient>> getIngredients() {
         return shopRepo.getIngredients();
     }
 
-    public void setIngredient(Ingredient ingredient) {
+    public void setIngredient(IngredientAndUnit ingredient) {
         mutableIngredient.setValue(ingredient);
     }
 
-    public LiveData<Ingredient> getIngredient() {
+    public LiveData<IngredientAndUnit> getIngredient() {
         return mutableIngredient;
     }
 
@@ -77,6 +83,13 @@ public class IngredientViewModel extends AndroidViewModel {
     }
     public LiveData<List<CategoryWithIngredient2>> getAllCategoryWithIngredient2() {
         return mAllCategoryWithIngredient2;
+    }
+    public LiveData<List<CategoryWithIngredientAndUnit>> getAllCategoryWithIngredientAndUnit() {
+        //return mAllCategoryWithIngredientAndUnit;
+        return categoryWithIngredientRepo.getAllCategoryWithIngredientAndUnit();
+    }
+    public LiveData<List<IngredientAndUnit>> getAllIngredientAndUnit() {
+        return mAllIngredientAndUnit;
     }
     //
 //    public boolean addItemToCart(Ingredient ingredient) {
@@ -93,14 +106,14 @@ public class IngredientViewModel extends AndroidViewModel {
 //    public void changeQuantity(CartItem cartItem, int quantity) {
 //        cartRepo.changeQuantity(cartItem, quantity);
 //    }
-    public int updateStock( Ingredient ingredient , String date, int suu ) {
+    public int updateStock( IngredientAndUnit ingredient , String date, int suu ) {
         return this.stockRepo.updateStock(ingredient.getIngredient_id(), date, suu);
     }
 
     public long insertStock( Stock stock ){
         return this.stockRepo.insertStock( stock );
     }
-    public int deleteStock(Ingredient ingredient , String date){
+    public int deleteStock(IngredientAndUnit ingredient , String date){
         return this.stockRepo.deleteStock( ingredient.getIngredient_id(), date );
     }
 

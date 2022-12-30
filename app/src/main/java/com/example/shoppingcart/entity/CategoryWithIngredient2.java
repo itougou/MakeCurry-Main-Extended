@@ -14,7 +14,7 @@ import java.util.List;
 
 //2022.12.23
 /*
- *   カテゴリーと食材のリレーション( 1:多 )を表すクラス
+ *   カテゴリーと食材のリレーション( 1:多 )を表すクラス　（現在未使用 → categoryWithIngredientAndUnitへ移行 ）
  */
 public class CategoryWithIngredient2 {
 

@@ -4,11 +4,13 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.shoppingcart.dao.CategoryWithIngredientAndUnitDao;
 import com.example.shoppingcart.dao.CategoryWithIngredientDao;
 import com.example.shoppingcart.dao.IngredientAndCookIngredientXRefAndUnitDao;
 import com.example.shoppingcart.database.CookRoom;
 import com.example.shoppingcart.entity.CategoryWithIngredient;
 import com.example.shoppingcart.entity.CategoryWithIngredient2;
+import com.example.shoppingcart.entity.CategoryWithIngredientAndUnit;
 import com.example.shoppingcart.entity.relation.IngredientAndCookIngredientXRefAndUnit;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
 public class CategoryWithIngredientRepo {
 
     private CategoryWithIngredientDao mCategoryWithIngredientDao;
+    private CategoryWithIngredientAndUnitDao mCategoryWithIngredientAndUnitDao;
     private
     Application mAllIngredientAndCookIngredientXRefAndUnit;
 
@@ -24,6 +27,7 @@ public class CategoryWithIngredientRepo {
         CookRoom db = CookRoom.getDatabase(application);
 
         mCategoryWithIngredientDao = db.CategoryWithIngredientDao();
+        mCategoryWithIngredientAndUnitDao = db.CategoryWithIngredientAndUnitDao();
     }
 
     public LiveData<List<CategoryWithIngredient>> getAllCategoryWithIngredient(){
@@ -31,6 +35,9 @@ public class CategoryWithIngredientRepo {
     }
     public LiveData<List<CategoryWithIngredient2>> getAllCategoryWithIngredient2(){
         return mCategoryWithIngredientDao.findAll2();
+    }
+    public LiveData<List<CategoryWithIngredientAndUnit>> getAllCategoryWithIngredientAndUnit(){
+        return mCategoryWithIngredientAndUnitDao.findAll();
     }
 
 }
