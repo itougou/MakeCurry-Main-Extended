@@ -1,5 +1,6 @@
 package com.example.shoppingcart.adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,11 @@ public class CookDetailAdapter extends ListAdapter<IngWithXRefAndUnitAndStock, C
         //System.out.println("onBindViewHolder");
         IngWithXRefAndUnitAndStock ingWithXRefAndUnitAndStock = getItem(position);
         holder.cookdetailRowBinding.setCookInglist(ingWithXRefAndUnitAndStock);
+        //2023.1.16 ↓
+        if( ingWithXRefAndUnitAndStock.getXref_quantity() > ingWithXRefAndUnitAndStock.getSt_quantity() ) {
+            holder.cookdetailRowBinding.txtIngredientQuantity.setTextColor(Color.RED);
+        }
+        //2023.1.16　↑
         holder.cookdetailRowBinding.executePendingBindings();
 
     }

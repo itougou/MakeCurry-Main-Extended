@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.shoppingcart.adapters.CookAdapter;
 import com.example.shoppingcart.adapters.CookDetailAdapter;
@@ -60,20 +63,53 @@ public class CookDetailFragment extends Fragment implements CookDetailAdapter.Co
         fragmentCookDetailBinding.CookIngList.setAdapter(cookDetailAdapter);
 
 
-        cookViewModel.findByCookId(1).observe(getViewLifecycleOwner(), new Observer<List<IngWithXRefAndUnitAndStock>>() {
-            @Override
-            public void onChanged(List<IngWithXRefAndUnitAndStock> ingWithXRefAndUnitAndStocks) {
-                for (IngWithXRefAndUnitAndStock i:ingWithXRefAndUnitAndStocks){
-                    Log.i("★CookDetailFragment","ing_name:"+i.getIng_name() + " nuit:" + i.getUnit_name());
-                }
+//2023.1.16
+// cookViewModel.findByCookId(1).observe(getViewLifecycleOwner(), new Observer<List<IngWithXRefAndUnitAndStock>>() {
+//            @Override
+//            public void onChanged(List<IngWithXRefAndUnitAndStock> ingWithXRefAndUnitAndStocks) {
+//                for (IngWithXRefAndUnitAndStock i:ingWithXRefAndUnitAndStocks){
+//                    Log.i("★CookDetailFragment","ing_name:"+i.getIng_name() + " nuit:" + i.getUnit_name());
+//                }
+//
+//                cookDetailAdapter.submitList(ingWithXRefAndUnitAndStocks);
+//            }
+//        });
 
-                cookDetailAdapter.submitList(ingWithXRefAndUnitAndStocks);
+        fragmentCookDetailBinding.setCookViewModel(cookViewModel);
+
+        //2023.1.16　↓
+        fragmentCookDetailBinding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //　アイテムが選択された時
+           @Override
+           public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+               String spn = fragmentCookDetailBinding.spinner.getSelectedItem().toString();
+               //Log.d("★CookDetailFragment","Spnner value:"+spn );
+               cookViewModel.findByCookId(1).observe(getViewLifecycleOwner(), new Observer<List<IngWithXRefAndUnitAndStock>>() {
+                   @Override
+                   public void onChanged(List<IngWithXRefAndUnitAndStock> ingWithXRefAndUnitAndStocks) {
+                       for (IngWithXRefAndUnitAndStock i:ingWithXRefAndUnitAndStocks){
+                           Log.i("★CookDetailFragment","setOnItemSelectedListener→onChange ing_name:"+i.getIng_name() + " "+i.getSt_quantity()+" nuit:" + i.getUnit_name());
+                           int require_quantity =  i.getXref_quantity()*Integer.parseInt(spn);
+                           if( require_quantity > i.getSt_quantity() ){
+                               Toast.makeText(getActivity(), "足りない食材があります！", Toast.LENGTH_SHORT).show();
+                               Log.d("★CookDetailFragment","足りないものあり！");
+                           }
+                           i.setXref_quantity( i.getXref_quantity() * Integer.parseInt(spn)  );
+                       }
+
+                       cookDetailAdapter.submitList(ingWithXRefAndUnitAndStocks);
+                   }
+               });
+           }
+            //2023.1.16　↑
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
-        fragmentCookDetailBinding.setCookViewModel(cookViewModel);
     }
-
 
 
     @Override

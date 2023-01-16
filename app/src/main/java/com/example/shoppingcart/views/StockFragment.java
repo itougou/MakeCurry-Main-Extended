@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.shoppingcart.R;
 import com.example.shoppingcart.adapters.StockListAdapter;
 import com.example.shoppingcart.databinding.FragmentStockBinding;
 import com.example.shoppingcart.entity.Stock;
@@ -39,7 +40,15 @@ public class StockFragment extends Fragment  implements StockListAdapter.StockIn
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentStockBinding = FragmentStockBinding.inflate(inflater, container, false);
-
+        //2023.1.10
+        fragmentStockBinding.makableCookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // CartFragmentへ遷移させる
+                navController.navigate( R.id.action_stockFragment_to_makableCookListFragment );
+                Log.d("★StockFragment","makableCookButton Clicked！！！");
+            }
+        });
         return fragmentStockBinding.getRoot();
     }
 

@@ -10,24 +10,44 @@ import androidx.room.DatabaseView;
 @DatabaseView(
         viewName = "IngWithXRefAndUnitAndStock",
         value = "SELECT" +
-                " ing.ingredient_id AS ingredient_id," +
-                " ing.ing_name AS ing_name," +
-                " xref.quantity AS xref_quantity," +
-                " xref.cook_id AS xref_cook_id," +
-                " st.quantity AS st_quantity," +
-                " u.unit_name AS unit_name" +
-                " FROM " +
-                " ingredient AS ing " +
-                " INNER JOIN" +
-                " cook_ingredient_xref AS xref" +
-                " ON" +
-                " ing.ingredient_id = xref.ingredient_id" +
-                " INNER JOIN " +
-                " unit AS u" +
+                "  xref.cook_id AS xref_cook_id," +
+                "  xref.quantity AS xref_quantity," +
+                "  ing.ingredient_id AS ingredient_id," +
+                "  ing.ing_name AS ing_name," +
+                "  st.quantity AS st_quantity," +
+                "  u.unit_name AS unit_name" +
+                " FROM" +
+                "  cook_ingredient_xref AS xref" +
+                "  LEFT OUTER JOIN" +
+                "  ingredient AS ing" +
+                " ON xref.ingredient_id = ing.ingredient_id" +
+                " LEFT OUTER JOIN" +
+                "  unit AS u" +
                 " ON ing.unit_id = u.unit_id" +
-                " INNER JOIN" +
-                " stock AS st" +
+                " LEFT OUTER JOIN" +
+                "  stock AS st" +
                 " ON ing.ingredient_id = st.ingredient_id"
+
+// 2023.1.16
+//        value = "SELECT" +
+//                " ing.ingredient_id AS ingredient_id," +
+//                " ing.ing_name AS ing_name," +
+//                " xref.quantity AS xref_quantity," +
+//                " xref.cook_id AS xref_cook_id," +
+//                " st.quantity AS st_quantity," +
+//                " u.unit_name AS unit_name" +
+//                " FROM " +
+//                " ingredient AS ing " +
+//                " INNER JOIN" +
+//                " cook_ingredient_xref AS xref" +
+//                " ON" +
+//                " ing.ingredient_id = xref.ingredient_id" +
+//                " INNER JOIN " +
+//                " unit AS u" +
+//                " ON ing.unit_id = u.unit_id" +
+//                " INNER JOIN" +
+//                " stock AS st" +
+//                " ON ing.ingredient_id = st.ingredient_id"
 )
 
 public class IngWithXRefAndUnitAndStock {

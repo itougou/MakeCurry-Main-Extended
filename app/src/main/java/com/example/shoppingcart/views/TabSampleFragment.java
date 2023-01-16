@@ -80,8 +80,9 @@ public class TabSampleFragment extends Fragment {
                 int ingCount = 1;
                 ArrayList<Item> ing_list = new ArrayList<>();
                 ing_list.add( new Item( categoryWithIngredientAndUnit.get(0).getIng_name(),
-                        categoryWithIngredientAndUnit.get(0).getQuantity_sum(),
-                        categoryWithIngredientAndUnit.get(0).getUnit_name() ) );
+                                        categoryWithIngredientAndUnit.get(0).getQuantity_sum(),
+                                        categoryWithIngredientAndUnit.get(0).getUnit_name() )
+                                        );
 
                 Log.d("★TabSampleFragment", "カテゴリー：" + categoryWithIngredientAndUnit.get(0).getCategory_name());
                 Log.d("★TabSampleFragment", "　食材：" + categoryWithIngredientAndUnit.get(0).getIng_name() + " 数："+categoryWithIngredientAndUnit.get(0).getQuantity_sum());
@@ -101,9 +102,9 @@ public class TabSampleFragment extends Fragment {
                     }else { //前回とカテゴリ名が異なる場合
 
                         ing_item_list = new Item[ingCount]; //食材の配列を生成
-                        ing_list.toArray(ing_item_list); //食材ArrayList→食材配列（Item型配列）へ変換
+                        ing_list.toArray( ing_item_list ); //食材ArrayList→食材配列（Item型配列）へ変換
 
-                        categories.add(new Category(nowCategoryName, ing_item_list));  //カテゴリーごとのインスタンス生成しテゴリArrayListへ格納
+                        categories.add( new Category( nowCategoryName, ing_item_list ) );  //カテゴリーごとのインスタンス生成しテゴリArrayListへ格納
 
                         nowCategoryName = categoryWithIngredientAndUnit.get(i).getCategory_name();  //現在のカテゴリ名を取っておく
                         ingCount = 1; //当該カテゴリの食材の件数を1にする
@@ -117,7 +118,7 @@ public class TabSampleFragment extends Fragment {
                 ing_item_list = new Item[ ingCount ]; //食材の配列生成
                 ing_list.toArray( ing_item_list ); //食材ArrayList→食材配列変換
 
-                categories.add( new Category(nowCategoryName, ing_item_list) );  //最後のカテゴリーごとのインスタンス生成しArrayListへ格納
+                categories.add( new Category( nowCategoryName, ing_item_list ) );  //最後のカテゴリーごとのインスタンス生成しArrayListへ格納
 
                 initRecycler();
                 initTabLayout();
