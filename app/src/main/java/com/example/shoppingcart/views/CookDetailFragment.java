@@ -93,12 +93,12 @@ public class CookDetailFragment extends Fragment implements CookDetailAdapter.Co
                    public void onChanged(List<IngWithXRefAndUnitAndStock> ingWithXRefAndUnitAndStocks) {
                        for (IngWithXRefAndUnitAndStock i : ingWithXRefAndUnitAndStocks) {
                            Log.i("★CookDetailFragment", "setOnItemSelectedListener→onChange ing_name:" + i.getIng_name() + " 必要数：" + i.getXref_quantity() + " 在庫：" + i.getSt_quantity()+ " nuit:" + i.getUnit_name());
-                           int require_quantity = i.getXref_quantity() * Integer.parseInt(spn);
+                           int require_quantity = i.getXref_quantity() * Integer.parseInt(spn);  //必要数を人数倍した数を求める
                            if (require_quantity > i.getSt_quantity()) {
                                Toast.makeText(getActivity(), "足りない食材があります！", Toast.LENGTH_SHORT).show();
                                Log.d("★CookDetailFragment", "足りないものあり！");
                            }
-                           i.setXref_quantity( i.getXref_quantity() * Integer.parseInt(spn) );  //必要数を人数倍する
+                           i.setXref_quantity( require_quantity );  //List内の必要数を人数倍した数に更新する
                        }
                        cookDetailAdapter.submitList(ingWithXRefAndUnitAndStocks);   //Recyclerビューへセットしてもらう
 
