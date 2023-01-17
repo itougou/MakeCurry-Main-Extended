@@ -15,7 +15,9 @@ import androidx.room.DatabaseView;
                 "  ing.ingredient_id AS ingredient_id," +
                 "  ing.ing_name AS ing_name," +
                 "  st.quantity AS st_quantity," +
-                "  u.unit_name AS unit_name" +
+                "  u.unit_name AS unit_name," +
+                "  st.add_date AS add_date," +
+                "  st.stock_id AS stock_id" +
                 " FROM" +
                 "  cook_ingredient_xref AS xref" +
                 "  LEFT OUTER JOIN" +
@@ -63,14 +65,36 @@ public class IngWithXRefAndUnitAndStock {
     private int st_quantity;
     @ColumnInfo(name = "unit_name")
     private String unit_name;
+    @ColumnInfo(name = "add_date")
+    private String add_date;
+    @ColumnInfo(name = "stock_id")
+    private int stock_id;
 
-    public IngWithXRefAndUnitAndStock(int ingredient_id, String ing_name, int xref_quantity, int xref_cook_id, int st_quantity, String unit_name) {
+    public IngWithXRefAndUnitAndStock(int ingredient_id, String ing_name, int xref_quantity, int xref_cook_id, int st_quantity, String unit_name, String add_date, int stock_id) {
         this.ingredient_id = ingredient_id;
         this.ing_name = ing_name;
         this.xref_quantity = xref_quantity;
         this.xref_cook_id = xref_cook_id;
         this.st_quantity = st_quantity;
         this.unit_name = unit_name;
+        this.add_date = add_date;
+        this.stock_id = stock_id;
+    }
+
+    public void setAdd_date(String add_date) {
+        this.add_date = add_date;
+    }
+
+    public void setStock_id(int stock_id) {
+        this.stock_id = stock_id;
+    }
+
+    public String getAdd_date() {
+        return add_date;
+    }
+
+    public int getStock_id() {
+        return stock_id;
     }
 
     public int getIngredient_id() {

@@ -12,18 +12,19 @@ import com.example.shoppingcart.entity.IngWithXRefAndUnitAndStock;
 import com.example.shoppingcart.repositories.CookAndCookIngredientXRefRepo;
 import com.example.shoppingcart.repositories.CookRepo;
 import com.example.shoppingcart.repositories.IngWithXRefAndUnitAndStockRepo;
+import com.example.shoppingcart.repositories.StockRepo;
 
 import java.util.List;
 
 public class CookViewModel extends AndroidViewModel {
 
     CookRepo cookRepo;
+    StockRepo stockRepo;
     IngWithXRefAndUnitAndStockRepo ingWithXRefAndUnitAndStockRepo;
     CookAndCookIngredientXRefRepo cookandcookdetail;
 
     //
     MutableLiveData<Cook> mutableCook = new MutableLiveData<>();
-
 
     //liveDate
     private final LiveData<List<Cook>> mAllCook; //料理一覧表示
@@ -37,6 +38,7 @@ public class CookViewModel extends AndroidViewModel {
     public CookViewModel(@NonNull Application application) {
         super(application);
         this.cookRepo = new CookRepo(application);
+        this.stockRepo = new StockRepo(application);
         this.ingWithXRefAndUnitAndStockRepo = new IngWithXRefAndUnitAndStockRepo(application);
         //CookRepo cookRepo = new CookRepo();
         mAllCook = this.cookRepo.getAll();
@@ -57,6 +59,10 @@ public class CookViewModel extends AndroidViewModel {
         return ingWithXRefAndUnitAndStockRepo.findByCookId(cook_id);
     }
 
+    public LiveData<List<IngWithXRefAndUnitAndStock>> findByCookIdGroupByIng(int cook_id) {
+        return ingWithXRefAndUnitAndStockRepo.findByCookIdGroupByIng(cook_id);
+    }
+
     //
     public LiveData<List<Cook>> getOneCook (int cook_id) {
         return cookRepo.getOneCook(cook_id);
@@ -67,5 +73,12 @@ public class CookViewModel extends AndroidViewModel {
         return mutableCook.getValue();
     }
     public void setCook(Cook cook) { mutableCook.setValue(cook);}
+
+    public int deleteStockByStockId(int stock_id ){
+        return stockRepo.deleteStockByStockId( stock_id );
+    }
+    public long updateStockByStockId(int stock_id, int suu ){
+        return stockRepo.updateStockByStockId( stock_id, suu );
+    }
 }
 

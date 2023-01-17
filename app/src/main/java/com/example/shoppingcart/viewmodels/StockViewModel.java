@@ -7,6 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.shoppingcart.entity.Cook;
+import com.example.shoppingcart.entity.IngWithXRefAndUnitAndStock;
 import com.example.shoppingcart.entity.Stock;
 import com.example.shoppingcart.entity.StockWithIngredientsAndUnit;
 import com.example.shoppingcart.entity.relation.IngredientAndStockAndUnit;
@@ -49,5 +51,4 @@ public class StockViewModel extends AndroidViewModel {
     public int deleteStock(int ingredient_id , String date){
         return stockRepo.deleteStock( ingredient_id, date );
     }
-
 }

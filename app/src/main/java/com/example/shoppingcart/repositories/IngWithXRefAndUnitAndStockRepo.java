@@ -37,5 +37,8 @@ public class IngWithXRefAndUnitAndStockRepo {
     public  LiveData<List<IngWithXRefAndUnitAndStock>> findByCookId(int cook_id) {
         return ingWithXRefAndUnitAndStockDao.findByCookId(cook_id);
     }
+    public  LiveData<List<IngWithXRefAndUnitAndStock>> findByCookIdGroupByIng(int cook_id) {
+        return ingWithXRefAndUnitAndStockDao.findByCookIdGroupByIng(cook_id);
+    }
 
 }
