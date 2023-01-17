@@ -25,6 +25,14 @@ public interface StockDao {
     int updateStock( int id, String date, int suu );
 
     @Transaction
+    @Query("UPDATE stock SET quantity = :suu WHERE stock_id =:id")
+    int updateStockByStockId( int id, int suu );
+
+    @Transaction
     @Query("DELETE FROM stock WHERE ingredient_id =:id AND add_date = :date")
     int deleteStock( int id, String date );
+
+    @Transaction
+    @Query("DELETE FROM stock WHERE stock_id =:id")
+    int deleteStockByStockId( int id );
 }

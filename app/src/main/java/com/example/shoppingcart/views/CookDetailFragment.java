@@ -32,7 +32,8 @@ public class CookDetailFragment extends Fragment implements CookDetailAdapter.Co
     CookViewModel cookViewModel;
     CookDetailAdapter cookDetailAdapter;
     CookAdapter cookAdapter;
-
+    List<IngWithXRefAndUnitAndStock> myIngWithXRefAndUnitAndStocks;
+    List<IngWithXRefAndUnitAndStock> myIngWithXRefAndUnitAndStocksGroupByIng;
 
     public CookDetailFragment() {
         // Required empty public constructor
@@ -78,43 +79,78 @@ public class CookDetailFragment extends Fragment implements CookDetailAdapter.Co
         fragmentCookDetailBinding.setCookViewModel(cookViewModel);
 
         //2023.1.16　↓
+        fragmentCookDetailBinding.spinner.setSelection(1);
         fragmentCookDetailBinding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             //　アイテムが選択された時
            @Override
            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                String spn = fragmentCookDetailBinding.spinner.getSelectedItem().toString();
                //Log.d("★CookDetailFragment","Spnner value:"+spn );
+               cookViewModel.findByCookIdGroupByIng(1).observe(getViewLifecycleOwner(), new Observer<List<IngWithXRefAndUnitAndStock>>() {
+                   @Override
+                   public void onChanged(List<IngWithXRefAndUnitAndStock> ingWithXRefAndUnitAndStocks) {
+                       for (IngWithXRefAndUnitAndStock i : ingWithXRefAndUnitAndStocks) {
+                           Log.i("★CookDetailFragment", "setOnItemSelectedListener→onChange ing_name:" + i.getIng_name() + " 必要数：" + i.getXref_quantity() + " 在庫：" + i.getSt_quantity()+ " nuit:" + i.getUnit_name());
+                           int require_quantity = i.getXref_quantity() * Integer.parseInt(spn);
+                           if (require_quantity > i.getSt_quantity()) {
+                               Toast.makeText(getActivity(), "足りない食材があります！", Toast.LENGTH_SHORT).show();
+                               Log.d("★CookDetailFragment", "足りないものあり！");
+                           }
+                           i.setXref_quantity(i.getXref_quantity() * Integer.parseInt(spn));
+                       }
+                       cookDetailAdapter.submitList(ingWithXRefAndUnitAndStocks);
+
+                       myIngWithXRefAndUnitAndStocksGroupByIng = ingWithXRefAndUnitAndStocks;
+                   }
+               });
                cookViewModel.findByCookId(1).observe(getViewLifecycleOwner(), new Observer<List<IngWithXRefAndUnitAndStock>>() {
                    @Override
                    public void onChanged(List<IngWithXRefAndUnitAndStock> ingWithXRefAndUnitAndStocks) {
-                       for (IngWithXRefAndUnitAndStock i:ingWithXRefAndUnitAndStocks){
-                           Log.i("★CookDetailFragment","setOnItemSelectedListener→onChange ing_name:"+i.getIng_name() + " "+i.getSt_quantity()+" nuit:" + i.getUnit_name());
-                           int require_quantity =  i.getXref_quantity()*Integer.parseInt(spn);
-                           if( require_quantity > i.getSt_quantity() ){
-                               Toast.makeText(getActivity(), "足りない食材があります！", Toast.LENGTH_SHORT).show();
-                               Log.d("★CookDetailFragment","足りないものあり！");
-                           }
-                           i.setXref_quantity( i.getXref_quantity() * Integer.parseInt(spn)  );
-                       }
 
-                       cookDetailAdapter.submitList(ingWithXRefAndUnitAndStocks);
+                       myIngWithXRefAndUnitAndStocks = ingWithXRefAndUnitAndStocks;
                    }
                });
            }
+           @Override
+           public void onNothingSelected(AdapterView<?> adapterView) {
+           }
+
             //2023.1.16　↑
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
         });
 
+        //「作ったボタン」のクリック時の処理
+        fragmentCookDetailBinding.stockReduceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //fragmentCookDetailBinding.spinner.setSelection(0);
+                Log.d("★CookDetailFragment","onClick()！");
+                for( IngWithXRefAndUnitAndStock stcokGrouppByIng : myIngWithXRefAndUnitAndStocksGroupByIng){
+                    Log.d("★CookDetailFragment","stcokGrouppByIng："+stcokGrouppByIng.getIng_name()+" 必要数:" +stcokGrouppByIng.getXref_quantity()+" 在庫数:" +stcokGrouppByIng.getSt_quantity());
+                    int reqNum = stcokGrouppByIng.getXref_quantity();
+                    for( IngWithXRefAndUnitAndStock stcok : myIngWithXRefAndUnitAndStocks ) {
+                        if (stcokGrouppByIng.getIngredient_id() == stcok.getIngredient_id()) {
+                            int stockNum = stcok.getSt_quantity();
+                            Log.d("★CookDetailFragment", " 素材：" + stcok.getIng_name() + " 在庫数:" + stcok.getSt_quantity());
+                            if (reqNum < stockNum) {
+                                Log.d("★CookDetailFragment", "  Upadate文で、在庫を" + (reqNum) + "減らす");
+                                cookViewModel.updateStockByStockId(stcok.getStock_id(), stockNum - reqNum);
+                                break;
+                            } else {
+                                Log.d("★CookDetailFragment", "  Delete文で、在庫数：" + stockNum + "の行を削除");
+                                cookViewModel.deleteStockByStockId(stcok.getStock_id());
+                                reqNum -= stockNum;
+                            }
+                        }
+                    }
+                }
+                Toast.makeText(getActivity(), "料理を作った分在庫減らしました！", Toast.LENGTH_SHORT).show();
+                Log.d("★CookDetailFragment", "料理を作った分在庫減らしました！");
+            }
+        });
     }
-
 
     @Override
-    public void onItemClick( IngWithXRefAndUnitAndStock ingWithXRefAndUnitAndStock){
-
+    public void onItemClick( IngWithXRefAndUnitAndStock ingWithXRefAndUnitAndStock ) {
     }
-
 }

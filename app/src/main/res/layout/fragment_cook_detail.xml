@@ -110,7 +110,19 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 tools:listitem="@layout/cookdetail_row" />
 
+            <Button
+                android:id="@+id/stockReduceButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="#1e90ff"
+                android:text="この料理を作った！！"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textColor="#FFFFFF" />
+
         </LinearLayout>
+
 
 <!--                        <Button-->
 <!--                            android:id="@+id/addToCartButton"-->

@@ -51,8 +51,7 @@ import java.util.concurrent.Executors;
                 CategoryWithIngredient.class,    //2022.12.23
                 CategoryWithIngredientAndUnit.class    //2022.12.23
         },
-        version = 11,
-
+        version = 13,
 
             autoMigrations = {
 //                @AutoMigration (from = 1, to = 2)
@@ -62,9 +61,11 @@ import java.util.concurrent.Executors;
 //                @AutoMigration (from = 5, to = 6),
 //                @AutoMigration (from = 6, to = 7)
 //                @AutoMigration (from = 7, to = 8),
-//                    @AutoMigration(from = 8, to = 9)
-//                    @AutoMigration(from = 9, to = 10)
-                    @AutoMigration(from = 10, to = 11)
+//                @AutoMigration(from = 8, to = 9)
+//                @AutoMigration(from = 9, to = 10)
+//                @AutoMigration(from = 10, to = 11),
+//                    @AutoMigration(from = 11, to = 12)
+                    @AutoMigration(from = 12, to = 13)
         },
         exportSchema = true
 )

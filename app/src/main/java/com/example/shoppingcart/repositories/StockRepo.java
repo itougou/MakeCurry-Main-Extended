@@ -118,6 +118,35 @@ public class StockRepo {
     }
 
 
+    //stockテーブル レコード更新処理（Idが一致するレコ－ドを更新）
+    public int updateStockByStockId(int stock_id, int suu){
+
+        ExecutorService execService = null;
+        int updatedLine=0;
+        try {
+            execService = Executors.newSingleThreadExecutor();// シングルスレッドでタスクを処理するオブジェクトを取得
+
+            // 戻り値あり（ submit ）でタスクを実行
+            Future<Integer> result = execService.submit(new Callable<Integer>() {
+                public Integer call() throws Exception {
+                    int rt = mStockDao.updateStockByStockId(stock_id,suu);
+                    Log.d("★StockRepo","スレッド処理 mStockDao.updateStockById() stock_id:"+stock_id+" suu:"+suu+" rt:"+rt);
+                    return rt;// 戻り値
+                }
+            } );
+
+            try {
+                updatedLine = result.get();// 戻り値(更新した行数)を取得
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }finally {
+            execService.shutdown();     // ExecutorServiceを明示的に終了する
+            Log.d("★StockRepo","ExecutorService をシャットダウン");
+        }
+        return updatedLine;    // 戻り値を返す
+    }
+
     //stockテーブル レコード削除処理
     public int deleteStock(int ing_id, String date ){
 
@@ -131,6 +160,35 @@ public class StockRepo {
                 public Integer call() throws Exception {
                     int rt = mStockDao.deleteStock(ing_id,date);
                     Log.d("★StockRepo","スレッド処理 mStockDao.deleteStock() ing_id:"+ing_id+" date:"+date+" rt:"+rt);
+                    return rt;// 戻り値
+                }
+            } );
+
+            try {
+                deletedLine = result.get();// 戻り値(更新した行数)を取得
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }finally {
+            execService.shutdown();     // ExecutorServiceを明示的に終了する
+            Log.d("★StockRepo","ExecutorService をシャットダウン");
+        }
+        return deletedLine;    // 戻り値を返す
+    }
+
+    //stockテーブル レコード削除処理（Idが一致するレコ－ドを削除）
+    public int deleteStockByStockId(int stock_id ){
+
+        ExecutorService execService = null;
+        int deletedLine = 0;
+        try {
+            execService = Executors.newSingleThreadExecutor();// シングルスレッドでタスクを処理するオブジェクトを取得
+
+            // 戻り値あり（ submit ）でタスクを実行
+            Future<Integer> result = execService.submit(new Callable<Integer>() {
+                public Integer call() throws Exception {
+                    int rt = mStockDao.deleteStockByStockId(stock_id);
+                    Log.d("★StockRepo","スレッド処理 mStockDao.deleteStockById() stock_id:"+stock_id+" rt:"+rt);
                     return rt;// 戻り値
                 }
             } );
