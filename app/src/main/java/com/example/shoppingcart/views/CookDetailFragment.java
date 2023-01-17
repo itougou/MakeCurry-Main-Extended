@@ -32,8 +32,9 @@ public class CookDetailFragment extends Fragment implements CookDetailAdapter.Co
     CookViewModel cookViewModel;
     CookDetailAdapter cookDetailAdapter;
     CookAdapter cookAdapter;
-    List<IngWithXRefAndUnitAndStock> myIngWithXRefAndUnitAndStocks;
-    List<IngWithXRefAndUnitAndStock> myIngWithXRefAndUnitAndStocksGroupByIng;
+    //2023.1.17
+    List<IngWithXRefAndUnitAndStock> myIngWithXRefAndUnitAndStocks; //その料理に必要な食材の情報
+    List<IngWithXRefAndUnitAndStock> myIngWithXRefAndUnitAndStocksGroupByIng; //その料理に必要な食材の情報（食材ごとにグループ化）
 
     public CookDetailFragment() {
         // Required empty public constructor
@@ -84,8 +85,9 @@ public class CookDetailFragment extends Fragment implements CookDetailAdapter.Co
             //　アイテムが選択された時
            @Override
            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-               String spn = fragmentCookDetailBinding.spinner.getSelectedItem().toString();
+               String spn = fragmentCookDetailBinding.spinner.getSelectedItem().toString(); //人数取り出し
                //Log.d("★CookDetailFragment","Spnner value:"+spn );
+               //その料理に必要な食材の情報（食材ごとにグループ化）をテーブルから読みだす処理
                cookViewModel.findByCookIdGroupByIng(1).observe(getViewLifecycleOwner(), new Observer<List<IngWithXRefAndUnitAndStock>>() {
                    @Override
                    public void onChanged(List<IngWithXRefAndUnitAndStock> ingWithXRefAndUnitAndStocks) {
@@ -96,25 +98,25 @@ public class CookDetailFragment extends Fragment implements CookDetailAdapter.Co
                                Toast.makeText(getActivity(), "足りない食材があります！", Toast.LENGTH_SHORT).show();
                                Log.d("★CookDetailFragment", "足りないものあり！");
                            }
-                           i.setXref_quantity(i.getXref_quantity() * Integer.parseInt(spn));
+                           i.setXref_quantity( i.getXref_quantity() * Integer.parseInt(spn) );  //必要数を人数倍する
                        }
-                       cookDetailAdapter.submitList(ingWithXRefAndUnitAndStocks);
+                       cookDetailAdapter.submitList(ingWithXRefAndUnitAndStocks);   //Recyclerビューへセットしてもらう
 
-                       myIngWithXRefAndUnitAndStocksGroupByIng = ingWithXRefAndUnitAndStocks;
+                       myIngWithXRefAndUnitAndStocksGroupByIng = ingWithXRefAndUnitAndStocks;//その料理に必要な食材の情報（食材ごとにグループ化）を後でテーブル削除変更する時のために取っておく
                    }
                });
+               //その料理に必要な食材の情報をテーブルから読みだす処理
                cookViewModel.findByCookId(1).observe(getViewLifecycleOwner(), new Observer<List<IngWithXRefAndUnitAndStock>>() {
                    @Override
                    public void onChanged(List<IngWithXRefAndUnitAndStock> ingWithXRefAndUnitAndStocks) {
 
-                       myIngWithXRefAndUnitAndStocks = ingWithXRefAndUnitAndStocks;
+                       myIngWithXRefAndUnitAndStocks = ingWithXRefAndUnitAndStocks;//その料理に必要な食材の情報を後でテーブル削除変更する時のために取っておく
                    }
                });
            }
            @Override
            public void onNothingSelected(AdapterView<?> adapterView) {
            }
-
             //2023.1.16　↑
 
         });
@@ -125,6 +127,7 @@ public class CookDetailFragment extends Fragment implements CookDetailAdapter.Co
             public void onClick(View v) {
                 //fragmentCookDetailBinding.spinner.setSelection(0);
                 Log.d("★CookDetailFragment","onClick()！");
+                //突き合わせ処理
                 for( IngWithXRefAndUnitAndStock stcokGrouppByIng : myIngWithXRefAndUnitAndStocksGroupByIng){
                     Log.d("★CookDetailFragment","stcokGrouppByIng："+stcokGrouppByIng.getIng_name()+" 必要数:" +stcokGrouppByIng.getXref_quantity()+" 在庫数:" +stcokGrouppByIng.getSt_quantity());
                     int reqNum = stcokGrouppByIng.getXref_quantity();
